@@ -16,5 +16,12 @@
 # Size measurements
 
 ## Read in size data (from photogrammetric analysis)
-file.edit("./scripts/read_size_data.R")
+source("./scripts/read_size_data.R")
+
+## Descriptive statistic analysis
+source("./scripts/descriptive_size_analysis.R", echo = TRUE)
+
+## Descriptive statistics and plots by date
+file.edit("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
+
 
