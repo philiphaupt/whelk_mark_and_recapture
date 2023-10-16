@@ -25,7 +25,10 @@ source("./scripts/descriptive_size_analysis.R", echo = TRUE)
 source("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
 
 # In Situ Temp and Depth measurement data
-file.edit("./scripts/read_TD_data.R")
+source("./scripts/read_TD_data.R")
 
 # plots
 file.edit("./scripts/plot_temp.r")
+
+# plot temp at days
+file.edit("./scripts/number_days_at_temperature_plots.R")
