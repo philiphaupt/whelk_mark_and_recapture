@@ -19,7 +19,9 @@ ggplot() +
   geom_histogram(aes(x = length,
                  fill = event_code),
                  alpha = 0.6) +
-  theme_minimal() 
+  theme_minimal() +
+  labs(x = "Length (mm)", y = "Number of Whelks")+
+  scale_fill_manual("Mark/Recapture Event", values =c("goldenrod", "cornflowerblue", "grey22"))
 
 
 ggplot(data = size_dat) +
