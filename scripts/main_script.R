@@ -15,18 +15,17 @@
 #---------------------
 # Size measurements
 
-## Read in size data (from photogrammetric analysis)
+## Read in size data (from photometric analysis)
 source("./scripts/read_size_data.R")
 
 ## Descriptive statistic analysis
 source("./scripts/descriptive_size_analysis.R", echo = TRUE)
 
 ## Descriptive statistics and plots by date
-file.edit("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
+source("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
 
 # In Situ Temp and Depth measurement data
 file.edit("./scripts/read_TD_data.R")
-
 
 # plots
 file.edit("./scripts/plot_temp.r")

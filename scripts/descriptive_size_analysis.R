@@ -11,6 +11,16 @@ size_dat %>% dplyr::summarise(mean_length_mm = mean(length, na.rm = TRUE),
 
 
 
+
+size_dat %>%
+  group_by(as.factor(date)) %>%
+  dplyr::summarise(
+    mean_length_mm = mean(length, na.rm = TRUE),
+    median_length_mm = median(length, na.rm = TRUE),
+    se_length_mm = std.error(length, na.rm = TRUE)
+  )
+
+
 # plot frequency distribution
 ggplot(data = size_dat)+
 geom_histogram(aes(x = length), fill = "cornflowerblue", alpha = 0.6)+
