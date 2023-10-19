@@ -1,9 +1,9 @@
 library(tidyverse)
 library(data.table)
 library(RColorBrewer)
-library(diverging_hcl)
+#library(diverging_hcl)
 
-#histo gram plot basic monthly number of days at temperature
+#histogram plot basic monthly number of days at temperature
 td_dat %>%
   dplyr::filter(location == "Studhill off Whitstable") %>% 
   group_by(location, as.Date(date_time)) %>% 
@@ -11,8 +11,7 @@ td_dat %>%
   mutate(temperature_rnd = round(max_daily_temp, 0)) %>% 
   ggplot()+
   geom_histogram(aes(y = temperature_rnd))+
-  labs(x = "Water Temperature (degrees Centigrade)", y = "Number of days (in a year at temperature)", fill = "Temperature Range \ndegrees Centigrade") +
-  #facet_wrap(~location)+
+  labs(y = expression("Seabed Water Temperature " (degree*C)), x = "Number of days (in a year at temperature)", fill = "Temperature Range \nDegrees Celsius") +
   theme_bw() +
   scale_fill_brewer(palette = "RdYlBu",direction = -1, labels = function(x) gsub("\\(|\\[|\\]", "", x)%>% gsub(",", " - ", .))+
   geom_vline(xintercept =20, colour = "black", linetype ="dashed")
@@ -33,11 +32,19 @@ td_dat %>%
   mutate(temperature_rnd = round(max_daily_temp, 0)) %>% 
   ggplot(aes(x = temperature_rnd, fill = cut(temperature_rnd, 9))) +
   geom_histogram(binwidth = 1) +
-  labs(x = "Water Temperature (degrees Centigrade)", y = "Number of days (in a year at temperature)", fill = "Temperature Range \ndegrees Centigrade") +
-  #facet_wrap(~location)+
-  theme_bw() +
-  scale_fill_brewer(palette = "RdYlBu",direction = -1, labels = function(x) gsub("\\(|\\[|\\]", "", x)%>% gsub(",", " - ", .))+
-  geom_vline(xintercept =20, colour = "black", linetype ="dashed")
+  labs(x = expression("Seabed Water Temperature " (degree*C)), y = "Number of days (in a year at temperature)", fill = "Temperature Range \nDegrees Celsius") +
+  theme(axis.title = element_text(size = rel(1.4)),
+        axis.text = element_text(size = rel(1.3)),
+        legend.title = element_text(size = rel(1.3)),
+        legend.text = element_text(size = rel(1.3)),
+        panel.background = element_rect(fill = "white", colour = "white"),
+        axis.line = element_line(colour = "black"),
+        legend.background = element_rect(colour = "white", fill = "white"),
+        legend.box.background = element_rect(colour = "white", fill = "white")
+        )+
+  scale_fill_brewer(palette = "RdYlBu",direction = -1, labels = function(x) gsub("\\(|\\[|\\]", "", x)%>% gsub(",", " - ", .)) +
+  geom_vline(xintercept =20, colour = "black", linetype ="dashed")+
+  scale_x_continuous(n.breaks = 11, limits = c(12, 23))
 
 
 
@@ -82,7 +89,7 @@ td_dat %>% group_by(location, as.Date(date_time)) %>%
 #   mutate(temperature_rnd = round(temperature, 0)) %>%
 #   ggplot(aes(x = temperature_rnd, fill = temperature_rnd >= 20)) +
 #   geom_histogram(binwidth = 1) +
-#   labs(x = "Water Temperature (degrees Centigrade)", y = "Number of days (in a year at temperature)") +
+#   labs(x = "Water Temperature (degrees Celsius)", y = "Number of days (in a year at temperature)") +
 #   facet_wrap(~ year) +
 #   theme_bw() +
 #   geom_vline(xintercept =20, colour = "black", linetype ="dashed")+
@@ -100,7 +107,7 @@ td_dat %>% group_by(location, as.Date(date_time)) %>%
 #   ) %>%
 #   ggplot(aes(x = sst_trunc, fill = temp_range)) +
 #   geom_histogram(binwidth = 1) +
-#   labs(x = "Water Temperature (degrees Centigrade)", y = "Number of days in a year at temperature") +
+#   labs(x = "Water Temperature (degrees Celsius)", y = "Number of days in a year at temperature") +
 #   facet_wrap(~ year) +
 #   theme_bw() +
 #   scale_fill_manual(values = c("Below 20" = "grey", "Above 20" = "red"),
