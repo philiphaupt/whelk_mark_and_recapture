@@ -21,7 +21,39 @@ mr_dat <- right_join(string_and_section_dat, pots_dat, by = c("pkey_opcode" = "f
 `%!in%` = function(x, y) !(x%in%y)
 
 # filter out deployment data - (not of interest for calculations, only for records)
-mr_dat_cln <- mr_dat %>% dplyr::filter(deploy_mark_recapture.x %!in% c("d"))
+mr_dat_cln <- mr_dat %>% dplyr::filter(deploy_mark_recapture.x %!in% c("d")) %>% 
+  dplyr::select(fkey_deploy_id = pkey_deploy_id,
+                deploy_type = deploy_mark_recapture.x, 
+                date,
+                soak_time,
+                location_name,
+                depth_m,
+                string_number = string_number.x,
+                number_of_sections_in_string,
+                number_of_baited_pots_on_string,
+                distance_between_pots,
+                direction,
+                fkey_opcode = pkey_opcode,
+                start_lat_dm = start_lat_dm.y,
+                start_long_dm = start_long_dm.y,
+                end_lat_dm = end_lat_dm.y,
+                end_long_dm = end_long_dm.y,
+                pkey_deploy_pot_id,
+                KEIFCA_tag_id,
+                data_looger_id = data_logger_id.x,
+                captured_unbanded_whelks,
+                captured_unbanded_weight_g,
+                number_marked = no_MARKED,
+                mark_colour_used_on_day_large_25x13 = colour_mark_on_day_large_25x15,
+                mark_colour_used_on_day_medium_20x10 = colour_medium_20x10,
+                mark_colour_used_on_day_medium_10x6 = colour_small__15x10,
+                recap_blue_large = recap_bluebands,
+                recap_red_small = recap_small_red,
+                recap_green_medium = recap_green,
+                recap_red_large = recap_large_red,
+                #recap_black_medium, 
+                total_recaptures = `Total recaptures`
+                )
 
 # housekeeping
 rm(pots_dat, string_and_section_dat, sample_section_dat, string_dat, mr_dat)
