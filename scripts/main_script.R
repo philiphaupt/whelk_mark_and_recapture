@@ -33,7 +33,7 @@ source("./scripts/read_TD_data.R")
 source("./scripts/plot_temp.r")
 
 # plot temperature at days
-source("./scripts/number_days_at_temperature_plots.R")
+source("./scripts/number_days_at_temperature_plots.R", echo = TRUE)
 
 #-------------------
 # Mark and recapture populations assessment
