@@ -38,19 +38,20 @@ source("./scripts/number_days_at_temperature_plots.R", echo = TRUE)
 #-------------------
 # Mark and recapture populations assessment
 ## Read and clean mark recapture data set.
-source(("./scripts/read_mark_and_recapture_data.R")) # START HERE
-
-## Construct data in required input format for ... analysis
-## planning on using Jolly-Seber analysis if possible because Suspect the population to be open.
-library("mra")
+source("./scripts/read_mark_and_recapture_data.R") # START HERE
 
 # Testing assumption:
 ## 1) Testing if the animals have fully mixed back into the population: proportions of marked to unmarked animals are equal among sub-samples ( i.e. per pot)
-file.edit("./scripts/")
+source("./scripts/test_fully_mixed_population.r", echo = TRUE) 
+# Suggests the population is only fully mixed by recapture two, unless 1/0 are OK.?
 
 
 ## 2) Testing whether a population is closed: If the population is OPEN (not closed) the number of marked individuals recaptured will decline in successive sampling events.
 ## Our animals being returned to sea would be open to immigration, emigrations and mortality such as predation (though limited fishing pressure): all reasons that the proportion should decline.
-## Proportion of recaptures, Rank values (1 - 10), Calculate Pearson correlation between ranks, then Spearman's rank correlation coefficient (rs). One tailed test - only oncerend with declines.
+## Proportion of recaptures, Rank values (1 - 10), Calculate Pearson correlation between ranks, then Spearman's rank correlation coefficient (rs). One tailed test - only concerend with declines.
+# - NO deline observed - but here is the test
+file.edit("./scripts/test_open_closed_population.R")
 
 ## Analysis using X, Y or Z formula:
+# Lincoln-Peterson
+file.edit("./scripts/lincoln-peterson_pop_estimate.R")
