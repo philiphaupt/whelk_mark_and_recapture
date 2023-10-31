@@ -1,6 +1,5 @@
 ## Construct data in required input format for ... analysis
 ## planning on using Jolly-Seber analysis if possible because Suspect the population to be open.
-library("mra")
 
 proportion_recaptures <- mr_dat %>%
   group_by(location_abbrv, date, fkey_opcode) %>%

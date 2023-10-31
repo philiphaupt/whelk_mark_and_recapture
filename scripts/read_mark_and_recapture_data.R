@@ -40,7 +40,7 @@ mr_dat <- mr_dat_raw %>% dplyr::filter(deploy_mark_recapture.x %!in% c("d")) %>%
                 end_long_dm = end_long_dm.y,
                 pkey_deploy_pot_id,
                 KEIFCA_tag_id,
-                data_looger_id = data_logger_id.x,
+                data_logger_id = data_logger_id.x,
                 captured_unbanded_whelks,
                 captured_unbanded_weight_g,
                 number_marked = no_MARKED,
@@ -65,7 +65,10 @@ mr_dat <- mr_dat_raw %>% dplyr::filter(deploy_mark_recapture.x %!in% c("d")) %>%
          recapture_2 = if_else(location_abbrv == "Margate",
                                recap_green_medium, 
                                recap_black_medium)
-         )
+        #total = rowSums(.[, c("age", "score")], na.rm = TRUE)
+         ) %>% 
+  mutate(string_section = str_sub(fkey_opcode, 2,2)) %>% 
+  mutate(total_whelks_caught = rowSums(.[, c("captured_unbanded_whelks", "recapture_1", "recapture_2")], na.rm = TRUE))
 
 # housekeeping
 rm(pots_dat, string_and_section_dat, sample_section_dat, string_dat, mr_dat_raw)

@@ -1,25 +1,34 @@
+library(tidyverse)
+library(data.table)
+
 ## Construct data in required input format for ... analysis
 ## planning on using Jolly-Seber analysis if possible because Suspect the population to be open.
-# testing lincoln - peterson index
-library("mra")
-# Only
-# m1 r2 - population appears fully mixed - but this may be influenced by micro scale food availability/movement dynamics?
-# using the first two days as marking - and then only counting individuals that were recaptured on the third event, becuase a tthe time of the second event the populaiton was not fully mixed
+
+# Lincoln - Peterson index
+## NOTES: 
+# Only m1-r2 - population appears fully mixed between pots suggesting to only use this data - but this may be influenced by micro scale food availability/movement dynamics?
+# using the first two days as marking - and then only counting individuals that were recaptured on the third event, because a the time of the second event the population was not fully mixed
+
+# Lincoln - Peterson index
 # Formula: N = (C/R)*M
 
-# M - Individuals marked (M1)  = total number caught first event/
-# C - Total number captured event 2/3 # I am using 3
-# R - Total number recaptured at event 2/3. # I am using 3
+# M - Individuals marked (M1)  = total number caught first event. (My case first two events from Margate)
+# C - Total number captured during event 3 # I am using 3, COULD ALSO HAVE USED EVENT 2, BUT DID NOT SATISFY ASSUMPTION THAT THE POPULATION HAS FULLY MIXED
+# R - Total number recaptured at event 3. # I am using 3
 
+# Lincoln-Peterson as a function:
 my_lincoln_peterson_index <- function(C, R, M){
   N = (C/R)*M
 }
 
-# data prep----------------
+# USER INPUT - can be moved to main script - or grouped??
+site = "Margate"
+
+# data prep for population size analysis----------------move to separate script
 dat_prep <- mr_dat %>%
-  mutate(string_section = str_sub(fkey_opcode, 2,2)) %>% 
   group_by(location_abbrv, date, string_number, string_section, deploy_type) %>%
   summarise(
+    total_whelks_caught_event = sum(total_whelks_caught),
     r1_totals = sum(recapture_1),
     r2_totals = sum(recapture_2),
     total_unbanded_whelks = sum(captured_unbanded_whelks),
@@ -43,44 +52,96 @@ dat_prep <- mr_dat %>%
     proportion_marked_recaptures_m2r2 = r2_totals / total_whelks_caught_m2r2
   )
 
-# Margate data prep-------
-#M
-margate_marked1 <- dat_prep %>% 
+# Lincoln-Peterson data prep-------
+# M
+marked_1 <- dat_prep %>% 
   ungroup() %>% 
-  dplyr::filter(location_abbrv == "Margate") %>% 
-  dplyr::arrange(date) %>% 
-  dplyr::slice(1:4) %>% 
-  group_by(string_number, string_section, deploy_type) %>% 
-  summarise(M = sum(total_unbanded_whelks))
+  dplyr::filter(location_abbrv == site) %>% 
+  dplyr::filter(deploy_type %in% c("m")) %>%
+  dplyr::mutate(date_mark_conlcuded = last(date)) %>% 
+  group_by(date_mark_conlcuded, string_number, string_section, deploy_type) %>% 
+  summarise(M1 = sum(total_unbanded_whelks),
+            C = sum(total_whelks_caught_event)
+            ) %>% 
+  ungroup() %>% 
+  rename(date = date_mark_conlcuded)
 
-#R
-margate_marked1_recaptured2 <- dat_prep %>% 
+# Marked subsequently
+marked_n <- dat_prep %>% 
   ungroup() %>% 
-  dplyr::filter(location_abbrv == "Margate") %>% 
-  dplyr::arrange(date) %>% 
-  dplyr::slice(7:8) %>% 
-  group_by(string_number, string_section, deploy_type) %>% 
-  summarise(R = sum(r1_totals))
+  dplyr::filter(location_abbrv == site) %>% 
+  dplyr::arrange(date) %>%
+  dplyr::filter(deploy_type %in% c("rm")) %>% 
+  group_by(date, string_number, string_section, deploy_type) %>% 
+  summarise(M = sum(total_unbanded_whelks)) %>%
+  ungroup() %>% 
+  mutate(event = frank(date, ties.method="dense")+1) %>% 
+  pivot_wider(names_from = event, values_from = M, names_prefix = "M")
 
-#C
-margate_captured2 <- dat_prep %>% 
+# R
+recaptured <- dat_prep %>% 
   ungroup() %>% 
-  dplyr::filter(location_abbrv == "Margate") %>% 
+  dplyr::filter(location_abbrv == site) %>% 
   dplyr::arrange(date) %>% 
-  dplyr::slice(7:8) %>% 
-  group_by(string_number, string_section, deploy_type) %>% 
-  summarise(C = sum(total_whelks_caught_m1r2))
+  dplyr::filter(deploy_type == "rm") %>% 
+  group_by(date, string_number, string_section, deploy_type) %>% 
+  summarise(Rm1 = sum(r1_totals),# number of whelks recaptured from the first marking event - during the first or second capture event
+            Rm2 = sum(r2_totals)) %>% # number of whelks recaptured from the second marking event - during the first or second capture event
+  ungroup()
+
+# C
+captured <- dat_prep %>% 
+  ungroup() %>% 
+  dplyr::filter(location_abbrv == site) %>% 
+  dplyr::arrange(date) %>% 
+  dplyr::filter(deploy_type == "rm") %>% 
+  group_by(date, string_number, string_section, deploy_type) %>% 
+  summarise(C = sum(total_whelks_caught_event)#,
+            #C2 = sum(total_whelks_caught_m1r1),
+            #C3 = sum(total_whelks_caught_m1r2+total_whelks_caught_m2r2)
+            ) %>% 
+  ungroup()
 
 # Lincoln_Peterson data final
-margate_lp_dat <- margate_marked1 %>% bind_cols(margate_marked1_recaptured2) %>% bind_cols(margate_captured2) %>% 
-  select(string_number = string_number...1,
-         string_section = string_section...2,
-         M,
-         C,
-         R)
+lp_dat <- marked_n %>%
+  bind_cols(recaptured %>% select(Rm1, Rm2)) %>%
+  bind_cols(captured %>% select(C)) %>%
+  ungroup() %>%
+  dplyr::select(date,
+                string_number,
+                string_section,
+                C, # C2 Total WHELKS CAUGHT SECOND EVENT
+                Rm1,# Recaptured marked event 1
+                M2, # should be the difference of C2 - Rm1
+                Rm2,# Recaptured marked event 2
+                #C3, # TOTAL WHELKS CAUGHT THIRD EVENT
+                M3 # Total numbers caught during third occasion/event
+                ) %>% 
+  bind_rows(marked_1) %>% 
+  dplyr::arrange(date) %>% 
+  dplyr::select(-deploy_type) %>% 
+  dplyr::relocate(date,
+                  string_number,
+                  string_section,
+                  C, #from initial marking event M1
+                  M1 #from initial marking event M1
+                  )
+  
 
 #calculation---------
-margate_lp_pop <- my_lincoln_peterson_index(C = margate_lp_dat$C, R = margate_lp_dat$R, M = margate_lp_dat$M)
+# Per string
+lp_pop_vector <- my_lincoln_peterson_index(C = lp_dat$C, R = lp_dat$Rm1, M = marked_1$M1) %>% round(.,0) %>% as.vector()
+lp_pop_matrix <- matrix(lp_pop_vector, nrow = 3, ncol = 2, byrow = TRUE) 
+print(lp_pop_matrix)
+
+
+
+lp_pop_matrix %>% 
+  as_tibble() %>% 
+  rename(N_a = V1, 
+         N_b = V2)
+print(lp_pop_matrix)
+
 
 # Repeat this for Whitstable when more data
 
