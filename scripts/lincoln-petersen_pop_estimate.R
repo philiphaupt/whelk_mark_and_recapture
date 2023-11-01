@@ -140,6 +140,9 @@ lp_pop_df <- lp_pop_matrix %>%
   as_tibble() %>% 
   dplyr::rename(N_a = V1, 
          N_b = V2)
+
+lp_means <- mean(lp_pop_vector[5:6]) # last recapture
+sd(lp_pop_vector[5:6])
 rm(lp_pop_matrix, lp_pop_vector)
 
 
