@@ -55,7 +55,8 @@ file.edit("./scripts/test_open_closed_population.R")
 ## Analysis using X, Y or Z formula:
 # Lincoln-Peterson
 file.edit("./scripts/lincoln-petersen_pop_estimate.R")
-
+# density
+file.edit("./scripts/density_estimates.R")
 
 # Jolly-Seber
 file.edit("./scripts/jolly-seber_pop_estimate.R")
