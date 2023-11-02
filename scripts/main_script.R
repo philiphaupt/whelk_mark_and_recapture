@@ -24,6 +24,8 @@ source("./scripts/descriptive_size_analysis.R", echo = TRUE)
 ## Descriptive statistics and plots by date
 source("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
 
+## Plot data by pot with errors
+file.edit("./scripts/plot_size_by_pot.R")
 #--------------------
 # Water temperature at depth (Seabed in situ loggers) analysis
 # In Situ Temp and Depth measurement data
@@ -42,14 +44,14 @@ source("./scripts/read_mark_and_recapture_data.R") # START HERE
 
 # Testing assumption:
 ## 1) Testing if the animals have fully mixed back into the population: proportions of marked to unmarked animals are equal among sub-samples ( i.e. per pot)
-source("./scripts/test_fully_mixed_population.r", echo = TRUE) 
+#source("./scripts/test_fully_mixed_population.r", echo = TRUE) 
 # Suggests the population is only fully mixed by recapture two, unless 1/0 are OK.?
 
 
 ## 2) Testing whether a population is closed: If the population is OPEN (not closed) the number of marked individuals recaptured will decline in successive sampling events.
 ## Our animals being returned to sea would be open to immigration, emigrations and mortality such as predation (though limited fishing pressure): all reasons that the proportion should decline.
 ## Proportion of recaptures, Rank values (1 - 10), Calculate Pearson correlation between ranks, then Spearman's rank correlation coefficient (rs). One tailed test - only concerend with declines.
-# - NO deline observed - but here is the test
+# - NO decline observed - but here is the test
 file.edit("./scripts/test_open_closed_population.R")
 
 ## Analysis using X, Y or Z formula:
