@@ -62,3 +62,7 @@ file.edit("./scripts/density_estimates.R")
 
 # Jolly-Seber
 file.edit("./scripts/jolly-seber_pop_estimate.R")
+
+
+## Variation in mark and catch rates & correspondence with whelk returns?
+file.edit("./scripts/captures_from_mark_recapture.R")
