@@ -8,7 +8,7 @@ library(png)
 # Set a seed for reproducibility
 set.seed(123)
 
-# Define the ratio of blue to green (4:1)
+# Define the ratio of blue to green (57:4:1)
 color_ratio <- c(57, 4, 1)
 colors <- rep(c("white", "blue", "green"), times = color_ratio)
 
