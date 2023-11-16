@@ -19,10 +19,10 @@
 source("./scripts/read_size_data.R")
 
 ## Descriptive statistic analysis
-file.edit("./scripts/descriptive_size_analysis.R", echo = TRUE)
+source("./scripts/descriptive_size_analysis.R", echo = TRUE)
 
 ## Descriptive statistics and plots by date
-file.edit("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
+source("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
 
 ## Plot data by pot with errors
 file.edit("./scripts/plot_size_by_pot.R")
@@ -75,3 +75,5 @@ source("./scripts/read_allomtreic_data.R")
 file.edit("./scripts/length_weight_calculations.R")# see C:/Users/Phillip Haupt/Documents/SUSTAINABLE FISHERIES/whelks/whelk_ogive/allometric_analysis/whelk_allometry/length_weight_cals.R for source
 
 file.edit("./scripts/biomass_estimates.R")
+
+# to get a stock estiamte we now only need a estimation of the total area of whelks - assuming a similar density - we can work it out... from the above calculations which would yield about 35.kg/whelk/500m2
