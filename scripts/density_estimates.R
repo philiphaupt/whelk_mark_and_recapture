@@ -1,4 +1,4 @@
-# Density calculations based on 30 m - 50 m buufers around lines
+# Density calculations based on 30 m - 50 m buffers around lines
 
 b30m <- 5787.953 #(30 m buffer around 51.44 m length line between first and last pot in section)
 b50m <- 12889.707 #(50 m buffer around 51.44 m length line between first and last pot in section)
