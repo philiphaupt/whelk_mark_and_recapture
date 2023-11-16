@@ -1,6 +1,7 @@
 # Circular plots depicting density of whelks
 
 # Install and load necessary packages
+library(tidyverse)
 library(ggplot2)
 library(ggimage)
 library(png)

@@ -14,22 +14,42 @@ size_dat %>% dplyr::group_by(event_code) %>%
 
 
 # plot frequency distribution
-size_dat %>%
-ggplot() +
+size_freq_plot <- size_dat %>%
+  ggplot() +
   geom_histogram(aes(x = length,
-                 fill = event_code),
+                     fill = event_code),
                  alpha = 0.6) +
-  theme_minimal() +
-  labs(x = "Length (mm)", y = "Number of Whelks")+
-  scale_fill_manual("Mark/Recapture Event", values =c("goldenrod", "cornflowerblue", "grey22"))
+  geom_vline(xintercept = 53, col = "red3", lty = "dashed")+
+  labs(x = "Length (mm)", y = "Number of Whelks") +
+  scale_fill_manual("Mark/Recapture Event",
+                    values = c("goldenrod", "cornflowerblue", "grey22")) +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = rel(1.4)),
+    axis.text = element_text(size = rel(1.3)),
+    legend.title = element_text(size = rel(1.3)),
+    legend.text = element_text(size = rel(1.3)),
+    panel.background = element_rect(fill = "white", colour = "white"),
+    axis.line = element_line(colour = "black"),
+    legend.background = element_rect(colour = "white", fill = "white"),
+    legend.box.background = element_rect(colour = "white", fill = "white"),
+    legend.key = element_rect(fill = "white"),
+    legend.key.size = unit(0.7, "cm"),
+    legend.key.width = unit(0.5, "cm")
+  )
 
 
-ggplot(data = size_dat) +
-  geom_density(aes(x = length,
-               fill = event_code),
-               alpha = 0.3) +
-  theme_minimal() #+ 
-  #facet_wrap(~event_code)
+size_freq_plot
+# Save the grid plot
+ggsave("./outputs/size_freq_plot_by_occasion.png", size_freq_plot, width = 20, height = 10, units = "cm")
+
+
+# ggplot(data = size_dat) +
+#   geom_density(aes(x = length,
+#                fill = event_code),
+#                alpha = 0.3) +
+#   theme_minimal() #+ 
+#   #facet_wrap(~event_code)
 
 # Perform Kolmogorov-Smirnov test
 event1 <- size_dat %>% filter(event_code == "M") %>% select(length) %>% unlist()

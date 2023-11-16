@@ -19,10 +19,10 @@
 source("./scripts/read_size_data.R")
 
 ## Descriptive statistic analysis
-source("./scripts/descriptive_size_analysis.R", echo = TRUE)
+file.edit("./scripts/descriptive_size_analysis.R", echo = TRUE)
 
 ## Descriptive statistics and plots by date
-source("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
+file.edit("./scripts/descriptive_size_analysis_by_date.R", echo = TRUE)
 
 ## Plot data by pot with errors
 file.edit("./scripts/plot_size_by_pot.R")
@@ -66,3 +66,12 @@ file.edit("./scripts/jolly-seber_pop_estimate.R")
 
 ## Variation in mark and catch rates & correspondence with whelk returns?
 file.edit("./scripts/captures_from_mark_recapture.R")
+
+#---------------------------------------------------------------
+# Density and biomass calculations from length weight allometry
+# Read in whelk allomtreic training data set for developing relationship
+source("./scripts/read_allomtreic_data.R")
+
+file.edit("./scripts/length_weight_calculations.R")# see C:/Users/Phillip Haupt/Documents/SUSTAINABLE FISHERIES/whelks/whelk_ogive/allometric_analysis/whelk_allometry/length_weight_cals.R for source
+
+file.edit("./scripts/biomass_estimates.R")
