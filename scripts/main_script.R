@@ -52,11 +52,11 @@ source("./scripts/read_mark_and_recapture_data.R") # START HERE
 ## Our animals being returned to sea would be open to immigration, emigrations and mortality such as predation (though limited fishing pressure): all reasons that the proportion should decline.
 ## Proportion of recaptures, Rank values (1 - 10), Calculate Pearson correlation between ranks, then Spearman's rank correlation coefficient (rs). One tailed test - only concerend with declines.
 # - NO decline observed - but here is the test
-file.edit("./scripts/test_open_closed_population.R")
+source("./scripts/test_open_closed_population.R")
 
 ## Analysis using X, Y or Z formula:
 # Lincoln-Peterson
-file.edit("./scripts/lincoln-petersen_pop_estimate.R")
+source("./scripts/lincoln-petersen_pop_estimate.R")
 # density
 file.edit("./scripts/density_estimates.R")
 
