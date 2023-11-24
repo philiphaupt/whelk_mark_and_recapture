@@ -11,6 +11,9 @@ library(tidyverse)
 
 #for both locations
 ggplot(data = td_dat) +
+  geom_hline(yintercept = 20, col = "goldenrod")+
+  geom_hline(yintercept = 21, col = "orange1")+
+  geom_hline(yintercept = 22, col = "red")+
   geom_point(aes(date_time, temperature, colour = location),
              alpha = 0.65,
              size = 0.98) +

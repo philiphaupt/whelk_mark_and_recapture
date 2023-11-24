@@ -1,7 +1,16 @@
-# Density calculations based on 30 m - 50 m buffers around lines
 
+# Length of sampling section
+5* 12.8016 = 64.008
+
+
+# Density calculations based on 30 m - 50 m buffers around lines
+b12_8 <-  # 12.8016m meter buffer absolute min distance - what fishermen uses)
 b30m <- 5787.953 #(30 m buffer around 51.44 m length line between first and last pot in section)
 b50m <- 12889.707 #(50 m buffer around 51.44 m length line between first and last pot in section)
+
+sf::st_distance()
+
+
 
 densities <- tibble(d30 = (lp_pop_df %>% pivot_longer(cols = c("N_a", "N_b"), names_to = "site", values_to = "abundance") %>% 
                              dplyr::select(abundance_30 = abundance))/b30m, 
