@@ -1,6 +1,6 @@
 # Read Temperature Depth log data
 library(tidyverse)
-library(httr)
+#library(httr)
 library(readxl)
 
 #NOT RUN: This solution will not work if you are using OneDrive for Business and your admin has disabled the use of public file sharing via links
@@ -9,10 +9,11 @@ library(readxl)
 # 
 # GET(url1, write_disk(tf <- tempfile(fileext = ".xlsx")))
 # td_dat <- read_excel(tf, 1L)
-# getwd()
-
-
-td_dat_early_compiled <- readxl::read_xlsx("./data/whelk_pot_data_logger_water_temperature_20230502-20230809_copy_20231011.xlsx") %>% 
+getwd()
+my_wd <- getwd()
+#my_wd <- "C:/Users/philip.haupt/OneDrive - Kent & Essex Inshore Fisheries and Conservation Authority/data_analysis/whelk/whelk__mark_and_recapture_2023/whelk_mark_and_recapture_analysis"
+#C:\Users\philip.haupt\OneDrive - Kent & Essex Inshore Fisheries and Conservation Authority\data_analysis\whelk\whelk__mark_and_recapture_2023\mark_and_recapture_analysis\data
+td_dat_early_compiled <- readxl::read_xlsx(paste0(my_wd, "/data/whelk_pot_data_logger_water_temperature_20230502-20230809_copy_20231011.xlsx")) %>% 
   select(pkey_td_log_id,
          fkey_record_on_deployment,
          dates = date_correct_all...11,
@@ -84,7 +85,7 @@ td_add_on <- td_add_on %>%
          location = location_name,
          location = if_else(location == "Studhill", "Studhill off Whitstable", "Margate Hook inner west gully"))
 
-td_dat <- bind_rows(td_dat, td_add_on)
+td_dat <- bind_rows(td_dat_early_compiled, td_add_on)
 # Display the resulting data frame
 print(td_dat)
 rm(td_dat_early_compiled, td_add_on)
