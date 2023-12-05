@@ -32,13 +32,13 @@ file.edit("./scripts/plot_size_by_pot.R")
 file.edit("./scripts/read_TD_data.R")
 
 # plots - time series
-file.edit("./scripts/plot_temp.r", echo = TRUE)
+source("./scripts/plot_temp.r", echo = TRUE)
 
 # plot temperature at days
 source("./scripts/number_days_at_temperature_plots.R", echo = TRUE)
 
 # calculate water temperature rate of change slopes
-file.edit("./scripts/rate_of_change_water_temperature.r")
+source("./scripts/rate_of_change_water_temperature.r")
 
 #-------------------
 # Mark and recapture populations assessment

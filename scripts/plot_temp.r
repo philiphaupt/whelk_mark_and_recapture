@@ -9,7 +9,7 @@ library(tidyverse)
 #   labs(x = 'Date', y = expression('Water temperature at seabed - degrees Celsius'))+
 # guides(fill=guide_legend(title="Location"))
 
-#for both locations
+# for both locations
 ggplot(data = td_dat) +
   geom_hline(yintercept = 20, col = "goldenrod")+
   geom_hline(yintercept = 21, col = "orange1")+
@@ -34,5 +34,5 @@ ggplot(data = td_dat) +
   labs(x = 'Date (Month in 2023)', 
        y = expression("Seabed Water Temperature " (degree*C)))+
   scale_color_manual("Location", values = c("goldenrod", "cornflowerblue"), labels = c("Margate", "Whitstable"))+
-  scale_y_continuous(n.breaks = 11, limits = c(12, 23))
+  scale_y_continuous(n.breaks = 13, limits = c(10, 23))
   
