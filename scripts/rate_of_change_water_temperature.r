@@ -48,7 +48,6 @@ smooth_function <- predict(gam_model, type = "response", se.fit = TRUE)$fit
 # Calculate the first derivative of the smooth function (slope)
 slope <- diff(smooth_function)
 
-
 # Set the threshold for identifying significant changes in slope
 threshold <- 0.158  # Adjust as needed
 
